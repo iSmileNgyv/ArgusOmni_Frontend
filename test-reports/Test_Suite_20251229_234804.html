@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Suite - Test Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content { position: relative; z-index: 1; }
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header .meta {
+            opacity: 0.95;
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        .stat-card.total { --accent-color: #3b82f6; }
+        .stat-card.success { --accent-color: #10b981; }
+        .stat-card.failed { --accent-color: #ef4444; }
+        .stat-card.duration { --accent-color: #f59e0b; }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card.total .stat-icon { background: rgba(59, 130, 246, 0.1); }
+        .stat-card.success .stat-icon { background: rgba(16, 185, 129, 0.1); }
+        .stat-card.failed .stat-icon { background: rgba(239, 68, 68, 0.1); }
+        .stat-card.duration .stat-icon { background: rgba(245, 158, 11, 0.1); }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent-color), rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .chart-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .chart-card h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: #e2e8f0;
+            font-weight: 700;
+        }
+
+        .progress-container {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 40px;
+            background: transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .progress-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.5s ease;
+        }
+
+        .progress-passed {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .progress-failed {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .test-list {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            overflow: hidden;
+        }
+
+        .test-list-header {
+            padding: 24px 32px;
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .test-list-header h2 {
+            font-size: 24px;
+            color: #e2e8f0;
+            font-weight: 700;
+        }
+
+        .test-item-wrapper {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .test-item-wrapper:last-child { border-bottom: none; }
+
+        .test-item-wrapper:hover {
+            background: rgba(51, 65, 85, 0.3);
+        }
+
+        .test-item {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+        }
+
+        .test-status {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .test-status.pass {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .test-status.fail {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .test-info { flex: 1; }
+
+        .test-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+        }
+
+        .test-meta {
+            font-size: 14px;
+            color: #94a3b8;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .test-duration-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .duration {
+            font-size: 28px;
+            font-weight: 800;
+            color: #f59e0b;
+        }
+
+        .duration-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .expand-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .expand-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .expand-icon {
+            color: #8b5cf6;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .test-item-wrapper.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .test-details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: rgba(15, 23, 42, 0.5);
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .test-item-wrapper.expanded .test-details-content {
+            max-height: 8000px;
+            padding: 24px 32px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .detail-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .detail-card:last-child { margin-bottom: 0; }
+
+        .detail-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-grid {
+            display: grid;
+            gap: 16px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            color: #cbd5e1;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            max-height: 300px;
+            max-width: 100%;
+            overflow: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        .code-block {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            max-height: 500px;
+            max-width: 100%;
+            overflow: auto;
+            position: relative;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .code-block::-webkit-scrollbar,
+        .detail-value::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        .code-block::-webkit-scrollbar-track,
+        .detail-value::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 5px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb,
+        .detail-value::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 5px;
+        }
+
+        .code-block::-webkit-scrollbar-thumb:hover,
+        .detail-value::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+
+        .method-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .method-get { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .method-post { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .method-put { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .method-patch { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+        .method-delete { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .status-badge.status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+
+        .status-badge.status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #fca5a5;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-card, .chart-card, .test-list {
+            animation: fadeIn 0.6s ease forwards;
+        }
+    </style>
+    <script>
+        function toggleDetails(testId) {
+            const wrapper = document.getElementById(testId).parentElement;
+            wrapper.classList.toggle('expanded');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Test Suite</h1>
+                <div class="meta">📅 2025-12-29 23:48:04 | ⏱️  Total Duration: 3.56s</div>
+            </div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">10</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-icon">✓</div>
+                <div class="stat-value">10</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat-card failed">
+                <div class="stat-icon">✗</div>
+                <div class="stat-value">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card duration">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">356</div>
+                <div class="stat-label">Avg Duration (ms)</div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h2>📈 Test Results Overview</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-segment progress-passed" style="width: 100.0%%;">
+                        100.0%% Passed
+                    </div>
+                    <div class="progress-segment progress-failed" style="width: 0.0%%;">
+                        0.0%% Failed
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h2>⚡ Performance Metrics</h2>
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon">🔽</div>
+                    <div class="stat-value" style="font-size: 36px;">188</div>
+                    <div class="stat-label">Min Duration (ms)</div>
+                </div>
+                <div class="stat-card failed">
+                    <div class="stat-icon">🔼</div>
+                    <div class="stat-value" style="font-size: 36px;">987</div>
+                    <div class="stat-label">Max Duration (ms)</div>
+                </div>
+                <div class="stat-card duration">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value" style="font-size: 36px;">356</div>
+                    <div class="stat-label">Avg Duration (ms)</div>
+                </div>
+            </div>
+        </div>
+        <div class="test-list">
+            <div class="test-list-header">
+                <h2>🔍 Test Details</h2>
+            </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-1')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">1. Login Request (frontend_post)</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">987ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-1">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;password&quot; : &quot;Ismayil1200&quot;,
+  &quot;langSyst&quot; : &quot;az&quot;,
+  &quot;skey&quot; : &quot;main&quot;,
+  &quot;frontend_post&quot; : &quot;login&quot;,
+  &quot;username&quot; : &quot;tester&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;initialization&quot;
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-2')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">2. Get encrVar to get ticket list</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">483ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-2">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;actiontype&quot; : &quot;callTab&quot;,
+  &quot;object_uid&quot; : &quot;68c3b7dc7739a&quot;,
+  &quot;frontend_post&quot; : &quot;setEncrVar&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;encrypt&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==&quot;,
+  &quot;decrypt&quot; : &quot;actiontype=callTab&amp;object_uid=68c3b7dc7739a&amp;target=content_selector.php&amp;initialTab=0_m19n&amp;tab=0&amp;m=19&amp;moduleSource=admin&amp;adm=1&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>🔧 Extracted Variables</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">encrVarTicketList</span>
+                                        <code class="detail-value">RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-3')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">3. Get encrVar to get ticket list for admin</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">188ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-3">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;actiontype&quot; : &quot;callTab&quot;,
+  &quot;object_uid&quot; : &quot;68c94d2a20b0e&quot;,
+  &quot;frontend_post&quot; : &quot;setEncrVar&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;encrypt&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==&quot;,
+  &quot;decrypt&quot; : &quot;actiontype=callTab&amp;object_uid=68c94d2a20b0e&amp;target=content_selector.php&amp;initialTab=4_m19n&amp;tab=4&amp;m=19&amp;moduleSource=admin&amp;adm=1&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>🔧 Extracted Variables</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">encrVarTicketListForAdmin</span>
+                                        <code class="detail-value">RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-4')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">4. Get ticket list</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">252ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-4">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;objectUid&quot; : &quot;admin_68c3b7dc7739a&quot;,
+  &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==&quot;,
+  &quot;frontend_post&quot; : &quot;getForm&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;showForm&quot;,
+    &quot;containerID&quot; : &quot;0_m19n__0&quot;,
+    &quot;position&quot; : {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;
+    },
+    &quot;formSettings&quot; : {
+      &quot;maximize&quot; : &quot;0&quot;
+    },
+    &quot;formId&quot; : &quot;0_m19n&quot;,
+    &quot;objectUid&quot; : &quot;admin_68c3b7dc7739a&quot;,
+    &quot;encrVar&quot; : null,
+    &quot;type&quot; : &quot;localTable&quot;,
+    &quot;containers&quot; : [ {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;elements&quot; : {
+        &quot;params&quot; : {
+          &quot;fields&quot; : [ [ {
+            &quot;columnWidth&quot; : &quot;0ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;ID&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Code&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Title&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Author&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Created date&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status changed at&quot;
+          }, {
+            &quot;elements&quot; : [ {
+              &quot;elementType&quot; : &quot;button&quot;,
+              &quot;buttonTitle&quot; : &quot;Open&quot;,
+              &quot;actions&quot; : [ {
+                &quot;actiontype&quot; : &quot;callTab&quot;,
+                &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJIZjdQL0o1NWJxSmZETkJDYW00dXBHQmNTUFYrcmlJU05nV2dIdGZqRU95bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2UEVYM280ZjFUWjFON21OMlBGUUFhdS8xT0puY3h4VjdmLzBacXNiMmZLVTN0b2ZMWkZEdnFVMTdHYk1OWXUrdjdvYWdrOTh2Z0hwaVZja1hpaDdMYWM9&quot;,
+                &quot;params&quot; : {
+                  &quot;ticket_uid&quot; : &quot;0&quot;
+                },
+                &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b\nfromTab=0\nstatusCanChange=0&quot;,
+                &quot;selectedParams&quot; : [ ]
+              } ]
+            } ],
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;2&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Actions&quot;
+          } ] ],
+          &quot;rowsPerPage&quot; : 100,
+          &quot;tableElementsId&quot; : {
+            &quot;0&quot; : &quot;autotable0_m19n&quot;,
+            &quot;1&quot; : &quot;tr0_m19n&quot;,
+            &quot;2&quot; : &quot;td&quot;,
+            &quot;3&quot; : &quot;temp0_m19n&quot;,
+            &quot;4&quot; : &quot;td&quot;,
+            &quot;5&quot; : &quot;1&quot;,
+            &quot;6&quot; : &quot;&quot;,
+            &quot;7&quot; : &quot;dtable0_m19n&quot;,
+            &quot;8&quot; : &quot;&quot;,
+            &quot;12&quot; : &quot;dtable&quot;,
+            &quot;9&quot; : &quot;b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacWcrMTRLb3JYNW0vR1NVV1lHQ1paYkplS1pIa3U1Ky9hM0YrWHpGSGRoN0dicytFdFF2ZnhEVGxENDYyMk9QSC9MbzFnZ2NGVDQ2MWUzKzVDSTcvc0hxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21tT0VxaVppd01sbWNsR0tKWlUrd3J3a0l0RzM3bnJHekFyRnUvUFVVd1FRaythYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVjRxaEtwcnlvUnI2UkY4RGJaZXBUdnRpYmxZc3o5ejN5WldvNVRaOUg4ejYrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpoL0Q1Q0tSZWtxSkpWSGI3bktTUVBuQU5xR0cvRFQxa2FLTzlVUEwvV3JXZz09&quot;,
+            &quot;10&quot; : &quot;&quot;
+          },
+          &quot;autoJumpNextCell&quot; : &quot;0&quot;,
+          &quot;JSonFieldValidation&quot; : &quot;&quot;,
+          &quot;JSonFormOpen&quot; : &quot;&quot;,
+          &quot;group_by&quot; : 0,
+          &quot;TabNo&quot; : &quot;0_m19n&quot;,
+          &quot;dataSet&quot; : [ {
+            &quot;elementID&quot; : 0,
+            &quot;ID&quot; : &quot;69528ccfa3421&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000007&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 1,
+            &quot;ID&quot; : &quot;694244bf25753&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000006&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 2,
+            &quot;ID&quot; : &quot;694243f76f375&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000005&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 3,
+            &quot;ID&quot; : &quot;6941a2ca68da5&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000004&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 4,
+            &quot;ID&quot; : &quot;6941a148519cb&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000003&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 5,
+            &quot;ID&quot; : &quot;69419da11d053&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000002&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 6,
+            &quot;ID&quot; : &quot;69419d482d68f&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000001&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          } ],
+          &quot;tableSetup&quot; : [ {
+            &quot;pin&quot; : [ 7 ],
+            &quot;hierarchical&quot; : 0
+          } ]
+        },
+        &quot;type&quot; : &quot;localTable&quot;
+      },
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;,
+      &quot;border&quot; : null,
+      &quot;title&quot; : null,
+      &quot;containerID&quot; : &quot;0_m19n__0&quot;,
+      &quot;containerType&quot; : &quot;localTable&quot;
+    } ],
+    &quot;buttons&quot; : [ {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TzRtMTZKVWFSY0hvS3o5U1FrMDg4RHFYK3IxWk43UEJ4eUFyY25FV0c1QQ==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Refresh&quot;
+    }, {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TmptUG9RQkJORFZNZTZoRFRnQk9xS09GUFJZZm1tQ01pL1UyS2d4TzhOTzdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b\narchive=1&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Archive&quot;
+    }, {
+      &quot;priority&quot; : &quot;high&quot;,
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUpBL3VhUkJRbVAwOU5jcWxBWjRBZUdKNGJ3TitrMlFnUHpMTVNOWk5nQ1B5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TzRtMTZKVWFSY0hvS3o5U1FrMDg4RHFYK3IxWk43UEJ4eUFyY25FV0c1QQ==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Create ticket&quot;
+    } ],
+    &quot;formTitle&quot; : &quot;Ticket list&quot;,
+    &quot;paArray&quot; : {
+      &quot;list&quot; : [ ]
+    }
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-5')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">5. Get encrVar to get form of create ticket overlay</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">207ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-5">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;actiontype&quot; : &quot;callTab&quot;,
+  &quot;object_uid&quot; : &quot;68b94b2e538c8&quot;,
+  &quot;frontend_post&quot; : &quot;setEncrVar&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;encrypt&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09&quot;,
+  &quot;decrypt&quot; : &quot;actiontype=callTab&amp;object_uid=68b94b2e538c8&amp;target=content_selector.php&amp;initialTab=1_m18_1n&amp;tab=1&amp;m=18_1&amp;moduleSource=admin&amp;adm=1&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>🔧 Extracted Variables</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">encrVar</span>
+                                        <code class="detail-value">RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-6')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">6. Create ticket overlay</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">235ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-6">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;actiontype&quot; : &quot;callTab&quot;,
+  &quot;objectUid&quot; : &quot;admin_68b94b2e538c8&quot;,
+  &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09&quot;,
+  &quot;frontend_post&quot; : &quot;getForm&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;showForm&quot;,
+    &quot;isModal&quot; : 1,
+    &quot;position&quot; : {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : &quot;98%&quot;,
+      &quot;height&quot; : &quot;98%&quot;,
+      &quot;css&quot; : &quot;&quot;
+    },
+    &quot;formSettings&quot; : {
+      &quot;maximize&quot; : &quot;0&quot;
+    },
+    &quot;formId&quot; : &quot;1_m18_1n&quot;,
+    &quot;objectUid&quot; : &quot;admin_68b94b2e538c8&quot;,
+    &quot;encrVar&quot; : null,
+    &quot;type&quot; : &quot;localTable&quot;,
+    &quot;containers&quot; : [ {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : &quot;98%&quot;,
+      &quot;height&quot; : &quot;&quot;,
+      &quot;elements&quot; : {
+        &quot;params&quot; : {
+          &quot;fields&quot; : [ [ {
+            &quot;columnWidth&quot; : &quot;0ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;uid&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Release Code&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Release Name&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Release Version&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Release Type&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Subject&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Description&quot;
+          }, {
+            &quot;confirmation&quot; : {
+              &quot;custom&quot; : &quot;Are you sure?&quot;
+            },
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;elements&quot; : [ {
+              &quot;elementType&quot; : &quot;button&quot;,
+              &quot;buttonTitle&quot; : &quot;Download&quot;,
+              &quot;actions&quot; : [ {
+                &quot;actiontype&quot; : &quot;callFileWithCallBack&quot;,
+                &quot;formId&quot; : &quot;1_m18_1n&quot;,
+                &quot;objectUid&quot; : &quot;admin_68b94b2e538c8&quot;,
+                &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YmdjWExYL0dZbzk5VXpha054Z2k2Z3F0dHYrMXZON0JSK1NmQXVMRG5xUnBDeHd0UVMrbUhDR2dZN0YvdTh0eU1VL3lrM2ZJL1dWZnNKM1A2LzdRMi9UTExuZksyTzJLTEY3bEExVkg3MDhyK0xFZExubXhPbXFtQWN6eisvZURPZVR6WjU5SkNTUFFrL1Mxem1UR0RhaDlBellkL2paVXduc2RlU0wrM0tzd2xxWlJMTElZdlp1aWpldzRQM09vbWt6SzF4eFlWOFBkeWlqSlAxdHJqTFdQRHJZcHl3QTd1clBjOE8rd29QMG5yeERqQkRPaWl0NW1VNmFIdkFJVEU9&quot;,
+                &quot;params&quot; : {
+                  &quot;release_code&quot; : &quot;1&quot;,
+                  &quot;release_name&quot; : &quot;2&quot;,
+                  &quot;release_version&quot; : &quot;3&quot;,
+                  &quot;release_type&quot; : &quot;4&quot;,
+                  &quot;subject&quot; : &quot;5&quot;,
+                  &quot;status&quot; : &quot;6&quot;,
+                  &quot;description&quot; : &quot;7&quot;
+                },
+                &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68b94b2e538c8\ntarget=action.php\ninitialTab=1_m18_1n\ntab=1\nm=18_1\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf3a5615\ntrigger=download&quot;,
+                &quot;selectedParams&quot; : [ ]
+              } ]
+            } ],
+            &quot;fieldType&quot; : 2,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Actions&quot;
+          } ] ],
+          &quot;rowsPerPage&quot; : 100,
+          &quot;tableElementsId&quot; : {
+            &quot;0&quot; : &quot;autotable1_m18_1n&quot;,
+            &quot;1&quot; : &quot;tr1_m18_1n&quot;,
+            &quot;2&quot; : &quot;td&quot;,
+            &quot;3&quot; : &quot;temp1_m18_1n&quot;,
+            &quot;4&quot; : &quot;td&quot;,
+            &quot;5&quot; : &quot;1&quot;,
+            &quot;6&quot; : &quot;&quot;,
+            &quot;7&quot; : &quot;dtable1_m18_1n&quot;,
+            &quot;8&quot; : &quot;&quot;,
+            &quot;12&quot; : &quot;dtable&quot;,
+            &quot;9&quot; : &quot;b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVab2w3dmdHVWxxNTVHUnBsQlJkZVl0NlRGQjZvanpSa1ZxYTJ0bVRMSnRUd3dWMTZqcjJOZzFoaXRtQjBURHlpVHNXcXhEYUNpWjdNNXVhSi9OaDRRanJpTnZ4dzZtUnAyMC9lL0MyazVxSnV6ckMwaW9hY1ZGM3ZTYis3U2RpQm1yZnhPc2Y2U1VsYUVlVEJuVmNIa0MyM3dEMmpEMlhSVXVOVitsTjhselpxZW9oVmd6TzYvQ0E2T24xT1R5WUR3TzROaUtNSWRydzQwclF0MVFERVRoOHA0TUhjcnpmL21PcGhDR0FjTHo5SVFrSklqaEx5Ui8xc004bkpHaUJIZHp6c0tDOFVlRGRpVHFobGFyNDZ3ZEFlMW1jS2htdFdsdzRrMFFOd0xoRTJPSDNPWG1hQU4wUWRXQlpaS0dkeW9CSkpRQzVWSVJDcmxPeUtwU1Z5TjcyeksvcEdnQ0RFanJGMjBsQVBSNGQxSGFqQ0FZL0xxa0ErQWQwOGVBMTNCOXJSWFBOOFgreHRCVndOYXNtR3lERW5zK2hocWFWb0R3QWpIRmpVWjNEb1AyMzU2VVdrQkhSMTh1SlpmcGZSOGhVeENMLy9SaUppdjgxdDNwYVY4VTlXaUNwWXNuelRqRnZ0N005aElKSERzNW1rVUFmRnFkRFI2Nk9rZTNua1lCS2hWKzJ4aTJlUXNTZU1GYWduK2JWVHVsTE1QQjd4YlNSTUVzZEZDRWZTUT09&quot;,
+            &quot;10&quot; : &quot;&quot;
+          },
+          &quot;autoJumpNextCell&quot; : &quot;0&quot;,
+          &quot;JSonFieldValidation&quot; : &quot;&quot;,
+          &quot;JSonFormOpen&quot; : &quot;&quot;,
+          &quot;group_by&quot; : 0,
+          &quot;TabNo&quot; : &quot;1_m18_1n&quot;,
+          &quot;dataSet&quot; : [ ],
+          &quot;tableSetup&quot; : [ {
+            &quot;pin&quot; : [ 8 ],
+            &quot;hierarchical&quot; : 0
+          } ]
+        },
+        &quot;type&quot; : &quot;localTable&quot;
+      },
+      &quot;css&quot; : &quot;bottom:10px&quot;,
+      &quot;border&quot; : null,
+      &quot;title&quot; : null,
+      &quot;containerID&quot; : &quot;1_m18_1n__0&quot;,
+      &quot;containerType&quot; : &quot;localTable&quot;
+    } ],
+    &quot;buttons&quot; : [ {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;closeoverlay&quot;,
+        &quot;formId&quot; : &quot;1_m18_1n&quot;,
+        &quot;params&quot; : [ ]
+      } ],
+      &quot;buttonTitle&quot; : &quot;Close&quot;
+    } ],
+    &quot;formTitle&quot; : &quot;Release List&quot;,
+    &quot;paArray&quot; : {
+      &quot;list&quot; : [ ]
+    }
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-7')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">7. Get encrVar to create ticket</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">190ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-7">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;actiontype&quot; : &quot;callFileWithCallBack&quot;,
+  &quot;object_uid&quot; : &quot;68c7c9d5ca15f&quot;,
+  &quot;title&quot; : &quot;Tester title&quot;,
+  &quot;message&quot; : &quot;Tester message&quot;,
+  &quot;priority&quot; : &quot;low&quot;,
+  &quot;user&quot; : &quot;&quot;,
+  &quot;frontend_post&quot; : &quot;setEncrVar&quot;,
+  &quot;target&quot; : &quot;submitTicket.php&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;encrypt&quot; : &quot;S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9&quot;,
+  &quot;decrypt&quot; : &quot;actiontype=callFileWithCallBack&amp;object_uid=68c7c9d5ca15f&amp;title=Tester+title&amp;message=Tester+message&amp;priority=low&amp;user=&amp;target=submitTicket.php&amp;initialTab=submitTicket_m19n&amp;tab=submitTicket&amp;m=19&amp;moduleSource=admin&amp;adm=1&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>🔧 Extracted Variables</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">encrVar</span>
+                                        <code class="detail-value">S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-8')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">8. Create ticket</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">287ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-8">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;title&quot; : &quot;Tester title1&quot;,
+  &quot;message&quot; : &quot;Tester message1&quot;,
+  &quot;priority&quot; : &quot;low&quot;,
+  &quot;encrVar&quot; : &quot;S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9&quot;,
+  &quot;user&quot; : &quot;&quot;,
+  &quot;frontend_post&quot; : &quot;getForm&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;showMessage&quot;,
+    &quot;message&quot; : &quot;Ticket created successfully&quot;,
+    &quot;type&quot; : &quot;success&quot;,
+    &quot;ttl&quot; : 5000
+  }, {
+    &quot;actiontype&quot; : &quot;closeoverlay&quot;,
+    &quot;formId&quot; : &quot;1_m19n&quot;
+  }, {
+    &quot;actiontype&quot; : &quot;callTab&quot;,
+    &quot;encrVar&quot; : &quot;SWExbFQ3OW9XZWwyc1M3MjhKMXFlTnV5OFlNc1haOHBmU3BSbFVPVCtYQkR0a2pROHNlLzdZOXg4WnNUaldaVVdoTXBLTER1Mk1wUVdOdGR3ZnQ4VURtS0cyenFGSnRFaVhoU3pDa1pFZnZ3SE8zVVc1ZkRYVERsVE0xb0tTNEZ3R0Z3UmVvV3FJUXlTb2h2ZElYOTZlV1JzV1JucnVEbElCQ29uTzg5b2ZKRXJRcW5RbkVVaTkzcmtWTld3d3F6UkZ6bWJxM1loVGlKK1dyMFgvS3owZ0R3K1EzY0dOM0RTdE1TS1Zud3UvVGtxeklkSFMrSWFvUll0Q1c3RnhET08yVWNydDNIanE0YTlBSFRUdW92WmFRWlJyMWRSRUh0V0tYSVJiSGdhTWc9&quot;,
+    &quot;confirm&quot; : 1,
+    &quot;params&quot; : [ ],
+    &quot;tmpalt&quot; : &quot;object_uid=68c7c9d5ca15f\ntitle=Tester title\nmessage=Tester message\npriority=low\nuser=\ntarget=content_selector.php\ninitialTab=submitTicket_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nticket_uid=6952daf421962&quot;,
+    &quot;formType&quot; : {
+      &quot;isOverlay&quot; : 0,
+      &quot;width&quot; : &quot;&quot;,
+      &quot;height&quot; : &quot;&quot;
+    }
+  }, {
+    &quot;actiontype&quot; : &quot;callFileWithCallBack&quot;,
+    &quot;encrVar&quot; : &quot;S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFZZ05hMi9TMHNQMFVnUmdyZTZzZE84bmdJelZSelJMM3d4QS85NmthdTFZRzJCVzV0MTZhaTI2K1cyTG1EZTBQb3FqVmU2RGJYRFdZZUpFTDNjblFtTy9lVDFSUjgrY29sVUxZMDZCM1hzQWh3cXVxY1pIVWVHeU5oYkJXcVFzd3luOXJGcUxOVUFJdFFCQnJjYUJwVHNkUXV1ZGlpdDZVT2EyM2s4cVhpRlBwdS9BRmRZYUxnQlcwUEhMR1EvUTFWNzJQRW0rQVF1ZUZ4akdadUZwdEZlY2Y0akt5N3RjUkZMaEcwa0Uydm9WQlJNYnhqRzVTOFBGSWVuTGd6K1BkU1lKZ2lBK3pCbXFLaHRIQTVDU1VTMjl1TGQ3SUphbVlaM1RTcDZzczFMOD0=&quot;,
+    &quot;confirm&quot; : {
+      &quot;active&quot; : 0,
+      &quot;message&quot; : &quot;&quot;,
+      &quot;options&quot; : [ ]
+    },
+    &quot;params&quot; : [ ],
+    &quot;tmpalt&quot; : &quot;actiontype=callFileWithCallBack\nobject_uid=68c7c9d5ca15f\ntitle=Tester title\nmessage=Tester message\npriority=low\nuser=\ntarget=sendNotification.php\ninitialTab=submitTicket_m19n\ntab=submitTicket\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nvalidator=no\nticket_uid=6952daf421962\nprocess=open_ticket&quot;,
+    &quot;formType&quot; : {
+      &quot;isOverlay&quot; : 0,
+      &quot;width&quot; : &quot;&quot;,
+      &quot;height&quot; : &quot;&quot;
+    }
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-9')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">9. Check is exist</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">384ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-9">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Cookies</span>
+                                        <pre class="code-block">{
+  &quot;dhl_i&quot; : &quot;h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D&quot;,
+  &quot;uID_i&quot; : &quot;6952daf24650a&quot;,
+  &quot;username_i&quot; : &quot;tester&quot;,
+  &quot;acc_i&quot; : &quot;main&quot;,
+  &quot;customer&quot; : &quot;ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;objectUid&quot; : &quot;admin_68c3b7dc7739a&quot;,
+  &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==&quot;,
+  &quot;frontend_post&quot; : &quot;getForm&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;showForm&quot;,
+    &quot;containerID&quot; : &quot;0_m19n__0&quot;,
+    &quot;position&quot; : {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;
+    },
+    &quot;formSettings&quot; : {
+      &quot;maximize&quot; : &quot;0&quot;
+    },
+    &quot;formId&quot; : &quot;0_m19n&quot;,
+    &quot;objectUid&quot; : &quot;admin_68c3b7dc7739a&quot;,
+    &quot;encrVar&quot; : null,
+    &quot;type&quot; : &quot;localTable&quot;,
+    &quot;containers&quot; : [ {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;elements&quot; : {
+        &quot;params&quot; : {
+          &quot;fields&quot; : [ [ {
+            &quot;columnWidth&quot; : &quot;0ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;ID&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Code&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Title&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Author&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Created date&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status changed at&quot;
+          }, {
+            &quot;elements&quot; : [ {
+              &quot;elementType&quot; : &quot;button&quot;,
+              &quot;buttonTitle&quot; : &quot;Open&quot;,
+              &quot;actions&quot; : [ {
+                &quot;actiontype&quot; : &quot;callTab&quot;,
+                &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJIZjdQL0o1NWJxSmZETkJDYW00dXBHQmNTUFYrcmlJU05nV2dIdGZqRU95bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2Qkc0citvRmNlYnhxRVJrSFBFY05UQlhMSURlTTE1UFErdG9kZFZuYml4cTN0b2ZMWkZEdnFVMTdHYk1OWXUrdjdvYWdrOTh2Z0hwaVZja1hpaDdMYWM9&quot;,
+                &quot;params&quot; : {
+                  &quot;ticket_uid&quot; : &quot;0&quot;
+                },
+                &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3\nfromTab=0\nstatusCanChange=0&quot;,
+                &quot;selectedParams&quot; : [ ]
+              } ]
+            } ],
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;2&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Actions&quot;
+          } ] ],
+          &quot;rowsPerPage&quot; : 100,
+          &quot;tableElementsId&quot; : {
+            &quot;0&quot; : &quot;autotable0_m19n&quot;,
+            &quot;1&quot; : &quot;tr0_m19n&quot;,
+            &quot;2&quot; : &quot;td&quot;,
+            &quot;3&quot; : &quot;temp0_m19n&quot;,
+            &quot;4&quot; : &quot;td&quot;,
+            &quot;5&quot; : &quot;1&quot;,
+            &quot;6&quot; : &quot;&quot;,
+            &quot;7&quot; : &quot;dtable0_m19n&quot;,
+            &quot;8&quot; : &quot;&quot;,
+            &quot;12&quot; : &quot;dtable&quot;,
+            &quot;9&quot; : &quot;b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacWcrMTRLb3JYNW0vR1NVV1lHQ1paYkplS1pIa3U1Ky9hM0YrWHpGSGRoN0dicytFdFF2ZnhEVGxENDYyMk9QSC9MbzFnZ2NGVDQ2MWUzKzVDSTcvc0hxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21tT0VxaVppd01sbWNsR0tKWlUrd3J3a0l0RzM3bnJHekFyRnUvUFVVd1FRaythYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVmFBTTBsZWFMOVRqUCthYXVHOUw3aHlSL2txYUdtS1VBYXBnNXNYWW9xVysrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpoL0Q1Q0tSZWtxSkpWSGI3bktTUVBuQU5xR0cvRFQxa2FLTzlVUEwvV3JXZz09&quot;,
+            &quot;10&quot; : &quot;&quot;
+          },
+          &quot;autoJumpNextCell&quot; : &quot;0&quot;,
+          &quot;JSonFieldValidation&quot; : &quot;&quot;,
+          &quot;JSonFormOpen&quot; : &quot;&quot;,
+          &quot;group_by&quot; : 0,
+          &quot;TabNo&quot; : &quot;0_m19n&quot;,
+          &quot;dataSet&quot; : [ {
+            &quot;elementID&quot; : 0,
+            &quot;ID&quot; : &quot;6952daf421962&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000008&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;29-12-2025 23:48:04&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;29-12-2025 23:48:04&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 1,
+            &quot;ID&quot; : &quot;69528ccfa3421&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000007&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 2,
+            &quot;ID&quot; : &quot;694244bf25753&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000006&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 3,
+            &quot;ID&quot; : &quot;694243f76f375&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000005&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 4,
+            &quot;ID&quot; : &quot;6941a2ca68da5&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000004&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 5,
+            &quot;ID&quot; : &quot;6941a148519cb&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000003&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 6,
+            &quot;ID&quot; : &quot;69419da11d053&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000002&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 7,
+            &quot;ID&quot; : &quot;69419d482d68f&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000001&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          } ],
+          &quot;tableSetup&quot; : [ {
+            &quot;pin&quot; : [ 7 ],
+            &quot;hierarchical&quot; : 0
+          } ]
+        },
+        &quot;type&quot; : &quot;localTable&quot;
+      },
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;,
+      &quot;border&quot; : null,
+      &quot;title&quot; : null,
+      &quot;containerID&quot; : &quot;0_m19n__0&quot;,
+      &quot;containerType&quot; : &quot;localTable&quot;
+    } ],
+    &quot;buttons&quot; : [ {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2SXJSR1BZc2hadDVKZE9QekQ4M3l4ay83UnlrUEorYWc0MXF6anQwb2piYg==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Refresh&quot;
+    }, {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2R2lGb1d2RGJEZ2NTQ1hCTi9pblhRbE9XNys5T2FPMXdYYU5RNmdEZXNHdjdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3\narchive=1&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Archive&quot;
+    }, {
+      &quot;priority&quot; : &quot;high&quot;,
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUpBL3VhUkJRbVAwOU5jcWxBWjRBZUdKNGJ3TitrMlFnUHpMTVNOWk5nQ1B5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2SXJSR1BZc2hadDVKZE9QekQ4M3l4ay83UnlrUEorYWc0MXF6anQwb2piYg==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Create ticket&quot;
+    } ],
+    &quot;formTitle&quot; : &quot;Ticket list&quot;,
+    &quot;paArray&quot; : {
+      &quot;list&quot; : [ ]
+    }
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="test-item-wrapper">
+                        <div class="test-item" onclick="toggleDetails('test-10')">
+                            <span class="test-status pass">✓</span>
+                            <div class="test-info">
+                                <div class="test-name">10. Check is exist for admin</div>
+                                <div class="test-meta">
+                                    <span>Status: 200</span>
+                                    <span>•</span>
+                                    <span>Method: POST</span>
+                                </div>
+                            </div>
+                            <div class="test-duration-box">
+                                <div>
+                                    <div class="duration">343ms</div>
+                                    <div class="duration-label">Duration</div>
+                                </div>
+                            </div>
+                            <div class="expand-btn">
+                                <span class="expand-icon">▼</span>
+                            </div>
+                        </div>
+                        <div class="test-details-content" id="test-10">
+                            <div class="detail-card">
+                                <h3>📤 Request</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Method</span>
+                                        <span class="method-badge method-post">POST</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">URL</span>
+                                        <code class="detail-value">https://core.tabus.net/main/html/handler.php</code>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Headers</span>
+                                        <pre class="code-block">{
+  &quot;User-Agent&quot; : &quot;ArgusOmni-Tester&quot;,
+  &quot;Content-Type&quot; : &quot;application/json&quot;
+}</pre>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;objectUid&quot; : &quot;admin_68c94d2a20b0e&quot;,
+  &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==&quot;,
+  &quot;frontend_post&quot; : &quot;getForm&quot;
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <h3>📥 Response</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item">
+                                        <span class="detail-label">Status Code</span>
+                                        <span class="status-badge status-success">200</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="detail-label">Body</span>
+                                        <pre class="code-block">{
+  &quot;console&quot; : &quot;&quot;,
+  &quot;errors&quot; : &quot;&quot;,
+  &quot;actions&quot; : [ {
+    &quot;actiontype&quot; : &quot;showForm&quot;,
+    &quot;containerID&quot; : &quot;4_m19n__0&quot;,
+    &quot;position&quot; : {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;
+    },
+    &quot;formSettings&quot; : {
+      &quot;maximize&quot; : &quot;0&quot;
+    },
+    &quot;formId&quot; : &quot;4_m19n&quot;,
+    &quot;objectUid&quot; : &quot;admin_68c94d2a20b0e&quot;,
+    &quot;encrVar&quot; : null,
+    &quot;type&quot; : &quot;localTable&quot;,
+    &quot;containers&quot; : [ {
+      &quot;x&quot; : &quot;10&quot;,
+      &quot;y&quot; : &quot;10&quot;,
+      &quot;width&quot; : null,
+      &quot;height&quot; : null,
+      &quot;elements&quot; : {
+        &quot;params&quot; : {
+          &quot;fields&quot; : [ [ {
+            &quot;columnWidth&quot; : &quot;0ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;ID&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Code&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Title&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Author&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Created date&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status&quot;
+          }, {
+            &quot;columnWidth&quot; : &quot;15ch&quot;,
+            &quot;fieldType&quot; : &quot;-1&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Status changed at&quot;
+          }, {
+            &quot;elements&quot; : [ {
+              &quot;elementType&quot; : &quot;button&quot;,
+              &quot;buttonTitle&quot; : &quot;Open&quot;,
+              &quot;actions&quot; : [ {
+                &quot;actiontype&quot; : &quot;callTab&quot;,
+                &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1NwN2U2aW9DbnNZOExGSkFqNTBySTFxSE14ZGNVWURmZXNQbFdUamhXcmd5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2Q2NaZkdST2VkaFFLUm9aNXFVd2tQalVzYXZ2dVl4T2tMTVhqdVpRbTNWeHdYVEVGVG50amo4bWZnOU5uS29MYmJYb0NkSFhIS3lXMnBaU0k4U1V0OTA9&quot;,
+                &quot;params&quot; : {
+                  &quot;ticket_uid&quot; : &quot;0&quot;
+                },
+                &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18\nfromTab=4\nstatusCanChange=1&quot;,
+                &quot;selectedParams&quot; : [ ]
+              } ]
+            } ],
+            &quot;columnWidth&quot; : &quot;10ch&quot;,
+            &quot;fieldType&quot; : &quot;2&quot;,
+            &quot;dbFieldSave&quot; : 0,
+            &quot;colName&quot; : &quot;Actions&quot;
+          } ] ],
+          &quot;rowsPerPage&quot; : 100,
+          &quot;tableElementsId&quot; : {
+            &quot;0&quot; : &quot;autotable4_m19n&quot;,
+            &quot;1&quot; : &quot;tr4_m19n&quot;,
+            &quot;2&quot; : &quot;td&quot;,
+            &quot;3&quot; : &quot;temp4_m19n&quot;,
+            &quot;4&quot; : &quot;td&quot;,
+            &quot;5&quot; : &quot;1&quot;,
+            &quot;6&quot; : &quot;&quot;,
+            &quot;7&quot; : &quot;dtable4_m19n&quot;,
+            &quot;8&quot; : &quot;&quot;,
+            &quot;12&quot; : &quot;dtable&quot;,
+            &quot;9&quot; : &quot;b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacUwxUDIzdmFzSnhwWDcxYVRjNytTUEtpaWlCVG1OK0tGTXNxME10WkErSm1LUlhuaVVsTjNJQnZJY3NCZzM0azhWc2ExbWxjd1ZmNWJEV24zMFBXbkRxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21uMVpQWXpuL2lubm5WTExGRE53S3FIMG9zY01XQmF6dFVRbk5oYmlGdUtwRSthYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVmJicFZHZkR0cVNmdHZDZGRyWTlKM3pIR29meFFaamZHdlJWVzF1SUZLdlcrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpnK2hLRzhLNGIxUU5PQkNEeTRKTXJ4TjlZV1V6alAyKzhwU0ZuTVNBN0tVUT09&quot;,
+            &quot;10&quot; : &quot;&quot;
+          },
+          &quot;autoJumpNextCell&quot; : &quot;0&quot;,
+          &quot;JSonFieldValidation&quot; : &quot;&quot;,
+          &quot;JSonFormOpen&quot; : &quot;&quot;,
+          &quot;group_by&quot; : 0,
+          &quot;TabNo&quot; : &quot;4_m19n&quot;,
+          &quot;dataSet&quot; : [ {
+            &quot;elementID&quot; : 0,
+            &quot;ID&quot; : &quot;6952daf421962&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000008&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;29-12-2025 23:48:04&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;29-12-2025 23:48:04&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 1,
+            &quot;ID&quot; : &quot;69528ccfa3421&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000007&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;29-12-2025 18:14:39&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 2,
+            &quot;ID&quot; : &quot;694244bf25753&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000006&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:50:55&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 3,
+            &quot;ID&quot; : &quot;694243f76f375&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000005&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;17-12-2025 09:47:35&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 4,
+            &quot;ID&quot; : &quot;6941a2ca68da5&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000004&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:19:54&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 5,
+            &quot;ID&quot; : &quot;6941a148519cb&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000003&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 22:13:28&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 6,
+            &quot;ID&quot; : &quot;69419da11d053&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000002&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:57:53&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          }, {
+            &quot;elementID&quot; : 7,
+            &quot;ID&quot; : &quot;69419d482d68f&quot;,
+            &quot;Code&quot; : &quot;TCKT_00000001&quot;,
+            &quot;Title&quot; : &quot;Tester title1&quot;,
+            &quot;Author&quot; : &quot;Tester &quot;,
+            &quot;Created date&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Status&quot; : &quot;New&quot;,
+            &quot;Status changed at&quot; : &quot;16-12-2025 21:56:24&quot;,
+            &quot;Actions&quot; : &quot;&quot;
+          } ],
+          &quot;tableSetup&quot; : [ {
+            &quot;pin&quot; : [ 7 ],
+            &quot;hierarchical&quot; : 0
+          } ]
+        },
+        &quot;type&quot; : &quot;localTable&quot;
+      },
+      &quot;css&quot; : &quot;bottom: 10px; right: 10px;&quot;,
+      &quot;border&quot; : null,
+      &quot;title&quot; : null,
+      &quot;containerID&quot; : &quot;4_m19n__0&quot;,
+      &quot;containerType&quot; : &quot;localTable&quot;
+    } ],
+    &quot;buttons&quot; : [ {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCt5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2QUFSdVRrbVQvMHBGYzBUMFdteTJJQks5R2dPaXBTb0lKcndaU2FzMTczSg==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=4\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Refresh&quot;
+    }, {
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCt5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2S1N3eE0wb2s4ektXdTVhckl6UWxJMEwwaUpKd3BYQkxtNlhCUmpXWXNIQzdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=4\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18\narchive=1&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Archive&quot;
+    }, {
+      &quot;priority&quot; : &quot;high&quot;,
+      &quot;actions&quot; : [ {
+        &quot;actiontype&quot; : &quot;callTab&quot;,
+        &quot;encrVar&quot; : &quot;RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1VwcDZMUCtmMGtCRGk3N3h2ZG5hRW0vK3drR2xmMUxITEJ2akJOT3ZvaVF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2QUFSdVRrbVQvMHBGYzBUMFdteTJJQks5R2dPaXBTb0lKcndaU2FzMTczSg==&quot;,
+        &quot;params&quot; : [ ],
+        &quot;selectedParams&quot; : [ ],
+        &quot;postGridData&quot; : [ ],
+        &quot;tmpalt&quot; : &quot;actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18&quot;
+      } ],
+      &quot;buttonTitle&quot; : &quot;Create ticket&quot;
+    } ],
+    &quot;formTitle&quot; : &quot;Ticket list&quot;,
+    &quot;paArray&quot; : {
+      &quot;list&quot; : [ ]
+    }
+  } ]
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        <div class="footer">
+            <p>⚡ Powered by ArgusOmni Test Orchestrator</p>
+            <p style="margin-top: 8px; font-size: 12px;">Modern API Testing & Automation Platform</p>
+        </div>
+    </div>
+</body>
+</html>

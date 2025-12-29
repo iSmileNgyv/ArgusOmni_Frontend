@@ -1,0 +1,25 @@
+{
+  "testSuiteName" : "Test Suite",
+  "executionTime" : "2025-12-29T19:49:48.410415",
+  "totalTests" : 1,
+  "passedTests" : 1,
+  "failedTests" : 0,
+  "totalDurationMs" : 1032,
+  "steps" : [ {
+    "stepNumber" : 1,
+    "stepName" : "New Step",
+    "success" : true,
+    "durationMs" : 1032,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : { },
+      "cookies" : { },
+      "body" : null
+    },
+    "response" : null,
+    "extractedVariables" : { },
+    "errorMessage" : null
+  } ]
+}

@@ -1,0 +1,1186 @@
+{
+  "testSuiteName" : "Test Suite",
+  "executionTime" : "2025-12-29T23:48:04.928213",
+  "totalTests" : 10,
+  "passedTests" : 10,
+  "failedTests" : 0,
+  "totalDurationMs" : 3556,
+  "steps" : [ {
+    "stepNumber" : 1,
+    "stepName" : "Login Request (frontend_post)",
+    "success" : true,
+    "durationMs" : 987,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : { },
+      "body" : {
+        "password" : "Ismayil1200",
+        "langSyst" : "az",
+        "skey" : "main",
+        "frontend_post" : "login",
+        "username" : "tester"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "initialization"
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 2,
+    "stepName" : "Get encrVar to get ticket list",
+    "success" : true,
+    "durationMs" : 483,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "actiontype" : "callTab",
+        "object_uid" : "68c3b7dc7739a",
+        "frontend_post" : "setEncrVar"
+      }
+    },
+    "response" : {
+      "encrypt" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==",
+      "decrypt" : "actiontype=callTab&object_uid=68c3b7dc7739a&target=content_selector.php&initialTab=0_m19n&tab=0&m=19&moduleSource=admin&adm=1"
+    },
+    "extractedVariables" : {
+      "encrVarTicketList" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ=="
+    },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 3,
+    "stepName" : "Get encrVar to get ticket list for admin",
+    "success" : true,
+    "durationMs" : 188,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "actiontype" : "callTab",
+        "object_uid" : "68c94d2a20b0e",
+        "frontend_post" : "setEncrVar"
+      }
+    },
+    "response" : {
+      "encrypt" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==",
+      "decrypt" : "actiontype=callTab&object_uid=68c94d2a20b0e&target=content_selector.php&initialTab=4_m19n&tab=4&m=19&moduleSource=admin&adm=1"
+    },
+    "extractedVariables" : {
+      "encrVarTicketListForAdmin" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ=="
+    },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 4,
+    "stepName" : "Get ticket list",
+    "success" : true,
+    "durationMs" : 252,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "objectUid" : "admin_68c3b7dc7739a",
+        "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==",
+        "frontend_post" : "getForm"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "showForm",
+        "containerID" : "0_m19n__0",
+        "position" : {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "css" : "bottom: 10px; right: 10px;"
+        },
+        "formSettings" : {
+          "maximize" : "0"
+        },
+        "formId" : "0_m19n",
+        "objectUid" : "admin_68c3b7dc7739a",
+        "encrVar" : null,
+        "type" : "localTable",
+        "containers" : [ {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "elements" : {
+            "params" : {
+              "fields" : [ [ {
+                "columnWidth" : "0ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "ID"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Code"
+              }, {
+                "columnWidth" : "10ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Title"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Author"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Created date"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Status"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "Status changed at"
+              }, {
+                "elements" : [ {
+                  "elementType" : "button",
+                  "buttonTitle" : "Open",
+                  "actions" : [ {
+                    "actiontype" : "callTab",
+                    "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJIZjdQL0o1NWJxSmZETkJDYW00dXBHQmNTUFYrcmlJU05nV2dIdGZqRU95bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2UEVYM280ZjFUWjFON21OMlBGUUFhdS8xT0puY3h4VjdmLzBacXNiMmZLVTN0b2ZMWkZEdnFVMTdHYk1OWXUrdjdvYWdrOTh2Z0hwaVZja1hpaDdMYWM9",
+                    "params" : {
+                      "ticket_uid" : "0"
+                    },
+                    "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b\nfromTab=0\nstatusCanChange=0",
+                    "selectedParams" : [ ]
+                  } ]
+                } ],
+                "columnWidth" : "10ch",
+                "fieldType" : "2",
+                "dbFieldSave" : 0,
+                "colName" : "Actions"
+              } ] ],
+              "rowsPerPage" : 100,
+              "tableElementsId" : {
+                "0" : "autotable0_m19n",
+                "1" : "tr0_m19n",
+                "2" : "td",
+                "3" : "temp0_m19n",
+                "4" : "td",
+                "5" : "1",
+                "6" : "",
+                "7" : "dtable0_m19n",
+                "8" : "",
+                "12" : "dtable",
+                "9" : "b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacWcrMTRLb3JYNW0vR1NVV1lHQ1paYkplS1pIa3U1Ky9hM0YrWHpGSGRoN0dicytFdFF2ZnhEVGxENDYyMk9QSC9MbzFnZ2NGVDQ2MWUzKzVDSTcvc0hxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21tT0VxaVppd01sbWNsR0tKWlUrd3J3a0l0RzM3bnJHekFyRnUvUFVVd1FRaythYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVjRxaEtwcnlvUnI2UkY4RGJaZXBUdnRpYmxZc3o5ejN5WldvNVRaOUg4ejYrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpoL0Q1Q0tSZWtxSkpWSGI3bktTUVBuQU5xR0cvRFQxa2FLTzlVUEwvV3JXZz09",
+                "10" : ""
+              },
+              "autoJumpNextCell" : "0",
+              "JSonFieldValidation" : "",
+              "JSonFormOpen" : "",
+              "group_by" : 0,
+              "TabNo" : "0_m19n",
+              "dataSet" : [ {
+                "elementID" : 0,
+                "ID" : "69528ccfa3421",
+                "Code" : "TCKT_00000007",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "29-12-2025 18:14:39",
+                "Status" : "New",
+                "Status changed at" : "29-12-2025 18:14:39",
+                "Actions" : ""
+              }, {
+                "elementID" : 1,
+                "ID" : "694244bf25753",
+                "Code" : "TCKT_00000006",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:50:55",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:50:55",
+                "Actions" : ""
+              }, {
+                "elementID" : 2,
+                "ID" : "694243f76f375",
+                "Code" : "TCKT_00000005",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:47:35",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:47:35",
+                "Actions" : ""
+              }, {
+                "elementID" : 3,
+                "ID" : "6941a2ca68da5",
+                "Code" : "TCKT_00000004",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:19:54",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:19:54",
+                "Actions" : ""
+              }, {
+                "elementID" : 4,
+                "ID" : "6941a148519cb",
+                "Code" : "TCKT_00000003",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:13:28",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:13:28",
+                "Actions" : ""
+              }, {
+                "elementID" : 5,
+                "ID" : "69419da11d053",
+                "Code" : "TCKT_00000002",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:57:53",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:57:53",
+                "Actions" : ""
+              }, {
+                "elementID" : 6,
+                "ID" : "69419d482d68f",
+                "Code" : "TCKT_00000001",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:56:24",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:56:24",
+                "Actions" : ""
+              } ],
+              "tableSetup" : [ {
+                "pin" : [ 7 ],
+                "hierarchical" : 0
+              } ]
+            },
+            "type" : "localTable"
+          },
+          "css" : "bottom: 10px; right: 10px;",
+          "border" : null,
+          "title" : null,
+          "containerID" : "0_m19n__0",
+          "containerType" : "localTable"
+        } ],
+        "buttons" : [ {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TzRtMTZKVWFSY0hvS3o5U1FrMDg4RHFYK3IxWk43UEJ4eUFyY25FV0c1QQ==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b"
+          } ],
+          "buttonTitle" : "Refresh"
+        }, {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TmptUG9RQkJORFZNZTZoRFRnQk9xS09GUFJZZm1tQ01pL1UyS2d4TzhOTzdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b\narchive=1"
+          } ],
+          "buttonTitle" : "Archive"
+        }, {
+          "priority" : "high",
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUpBL3VhUkJRbVAwOU5jcWxBWjRBZUdKNGJ3TitrMlFnUHpMTVNOWk5nQ1B5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2TzRtMTZKVWFSY0hvS3o5U1FrMDg4RHFYK3IxWk43UEJ4eUFyY25FV0c1QQ==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf33519b"
+          } ],
+          "buttonTitle" : "Create ticket"
+        } ],
+        "formTitle" : "Ticket list",
+        "paArray" : {
+          "list" : [ ]
+        }
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 5,
+    "stepName" : "Get encrVar to get form of create ticket overlay",
+    "success" : true,
+    "durationMs" : 207,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "actiontype" : "callTab",
+        "object_uid" : "68b94b2e538c8",
+        "frontend_post" : "setEncrVar"
+      }
+    },
+    "response" : {
+      "encrypt" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09",
+      "decrypt" : "actiontype=callTab&object_uid=68b94b2e538c8&target=content_selector.php&initialTab=1_m18_1n&tab=1&m=18_1&moduleSource=admin&adm=1"
+    },
+    "extractedVariables" : {
+      "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09"
+    },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 6,
+    "stepName" : "Create ticket overlay",
+    "success" : true,
+    "durationMs" : 235,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : { },
+      "body" : {
+        "actiontype" : "callTab",
+        "objectUid" : "admin_68b94b2e538c8",
+        "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YSt2YnV1ZkZaQUxGZ1VIY05peE14QTEvNDRDNnAzRlhPenI2cndFdXVpSi93SllKOVoyajJSS1BwcUJ5M0V3MFpDT2loYmw0Qk1OVktscWpXTlNWdHFZdGhNRHFJRVEyblcrK3Y1VzZ4M0VvSzFZOVFROVZaVjF5a1FRMnRVTERQZUtFNmNzTzZicjhkKzFhVXgyMjFhc3dJUit4NzBVY05uL3I5R1lnT1dHZz09",
+        "frontend_post" : "getForm"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "showForm",
+        "isModal" : 1,
+        "position" : {
+          "x" : "10",
+          "y" : "10",
+          "width" : "98%",
+          "height" : "98%",
+          "css" : ""
+        },
+        "formSettings" : {
+          "maximize" : "0"
+        },
+        "formId" : "1_m18_1n",
+        "objectUid" : "admin_68b94b2e538c8",
+        "encrVar" : null,
+        "type" : "localTable",
+        "containers" : [ {
+          "x" : "10",
+          "y" : "10",
+          "width" : "98%",
+          "height" : "",
+          "elements" : {
+            "params" : {
+              "fields" : [ [ {
+                "columnWidth" : "0ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "uid"
+              }, {
+                "columnWidth" : "10ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Release Code"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Release Name"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Release Version"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Release Type"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Subject"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Status"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Description"
+              }, {
+                "confirmation" : {
+                  "custom" : "Are you sure?"
+                },
+                "columnWidth" : "10ch",
+                "elements" : [ {
+                  "elementType" : "button",
+                  "buttonTitle" : "Download",
+                  "actions" : [ {
+                    "actiontype" : "callFileWithCallBack",
+                    "formId" : "1_m18_1n",
+                    "objectUid" : "admin_68b94b2e538c8",
+                    "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5YmdjWExYL0dZbzk5VXpha054Z2k2Z3F0dHYrMXZON0JSK1NmQXVMRG5xUnBDeHd0UVMrbUhDR2dZN0YvdTh0eU1VL3lrM2ZJL1dWZnNKM1A2LzdRMi9UTExuZksyTzJLTEY3bEExVkg3MDhyK0xFZExubXhPbXFtQWN6eisvZURPZVR6WjU5SkNTUFFrL1Mxem1UR0RhaDlBellkL2paVXduc2RlU0wrM0tzd2xxWlJMTElZdlp1aWpldzRQM09vbWt6SzF4eFlWOFBkeWlqSlAxdHJqTFdQRHJZcHl3QTd1clBjOE8rd29QMG5yeERqQkRPaWl0NW1VNmFIdkFJVEU9",
+                    "params" : {
+                      "release_code" : "1",
+                      "release_name" : "2",
+                      "release_version" : "3",
+                      "release_type" : "4",
+                      "subject" : "5",
+                      "status" : "6",
+                      "description" : "7"
+                    },
+                    "tmpalt" : "actiontype=callTab\nobject_uid=68b94b2e538c8\ntarget=action.php\ninitialTab=1_m18_1n\ntab=1\nm=18_1\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf3a5615\ntrigger=download",
+                    "selectedParams" : [ ]
+                  } ]
+                } ],
+                "fieldType" : 2,
+                "dbFieldSave" : 0,
+                "colName" : "Actions"
+              } ] ],
+              "rowsPerPage" : 100,
+              "tableElementsId" : {
+                "0" : "autotable1_m18_1n",
+                "1" : "tr1_m18_1n",
+                "2" : "td",
+                "3" : "temp1_m18_1n",
+                "4" : "td",
+                "5" : "1",
+                "6" : "",
+                "7" : "dtable1_m18_1n",
+                "8" : "",
+                "12" : "dtable",
+                "9" : "b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVab2w3dmdHVWxxNTVHUnBsQlJkZVl0NlRGQjZvanpSa1ZxYTJ0bVRMSnRUd3dWMTZqcjJOZzFoaXRtQjBURHlpVHNXcXhEYUNpWjdNNXVhSi9OaDRRanJpTnZ4dzZtUnAyMC9lL0MyazVxSnV6ckMwaW9hY1ZGM3ZTYis3U2RpQm1yZnhPc2Y2U1VsYUVlVEJuVmNIa0MyM3dEMmpEMlhSVXVOVitsTjhselpxZW9oVmd6TzYvQ0E2T24xT1R5WUR3TzROaUtNSWRydzQwclF0MVFERVRoOHA0TUhjcnpmL21PcGhDR0FjTHo5SVFrSklqaEx5Ui8xc004bkpHaUJIZHp6c0tDOFVlRGRpVHFobGFyNDZ3ZEFlMW1jS2htdFdsdzRrMFFOd0xoRTJPSDNPWG1hQU4wUWRXQlpaS0dkeW9CSkpRQzVWSVJDcmxPeUtwU1Z5TjcyeksvcEdnQ0RFanJGMjBsQVBSNGQxSGFqQ0FZL0xxa0ErQWQwOGVBMTNCOXJSWFBOOFgreHRCVndOYXNtR3lERW5zK2hocWFWb0R3QWpIRmpVWjNEb1AyMzU2VVdrQkhSMTh1SlpmcGZSOGhVeENMLy9SaUppdjgxdDNwYVY4VTlXaUNwWXNuelRqRnZ0N005aElKSERzNW1rVUFmRnFkRFI2Nk9rZTNua1lCS2hWKzJ4aTJlUXNTZU1GYWduK2JWVHVsTE1QQjd4YlNSTUVzZEZDRWZTUT09",
+                "10" : ""
+              },
+              "autoJumpNextCell" : "0",
+              "JSonFieldValidation" : "",
+              "JSonFormOpen" : "",
+              "group_by" : 0,
+              "TabNo" : "1_m18_1n",
+              "dataSet" : [ ],
+              "tableSetup" : [ {
+                "pin" : [ 8 ],
+                "hierarchical" : 0
+              } ]
+            },
+            "type" : "localTable"
+          },
+          "css" : "bottom:10px",
+          "border" : null,
+          "title" : null,
+          "containerID" : "1_m18_1n__0",
+          "containerType" : "localTable"
+        } ],
+        "buttons" : [ {
+          "actions" : [ {
+            "actiontype" : "closeoverlay",
+            "formId" : "1_m18_1n",
+            "params" : [ ]
+          } ],
+          "buttonTitle" : "Close"
+        } ],
+        "formTitle" : "Release List",
+        "paArray" : {
+          "list" : [ ]
+        }
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 7,
+    "stepName" : "Get encrVar to create ticket",
+    "success" : true,
+    "durationMs" : 190,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "actiontype" : "callFileWithCallBack",
+        "object_uid" : "68c7c9d5ca15f",
+        "title" : "Tester title",
+        "message" : "Tester message",
+        "priority" : "low",
+        "user" : "",
+        "frontend_post" : "setEncrVar",
+        "target" : "submitTicket.php"
+      }
+    },
+    "response" : {
+      "encrypt" : "S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9",
+      "decrypt" : "actiontype=callFileWithCallBack&object_uid=68c7c9d5ca15f&title=Tester+title&message=Tester+message&priority=low&user=&target=submitTicket.php&initialTab=submitTicket_m19n&tab=submitTicket&m=19&moduleSource=admin&adm=1"
+    },
+    "extractedVariables" : {
+      "encrVar" : "S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9"
+    },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 8,
+    "stepName" : "Create ticket",
+    "success" : true,
+    "durationMs" : 287,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "title" : "Tester title1",
+        "message" : "Tester message1",
+        "priority" : "low",
+        "encrVar" : "S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFFbEptcmh3bkZIRUhzRjVHQ0g5U0NUOEZrZWx3NEhyemVqTUpFRFVPOTl6a0xUdzFEWmpubU83RTNTTGs5Z2FqU0RYV3d3aEVROG1lZW5odGVhYXgybDB3Sno1ZW1pTDhBc0o4ZTdOc1BKb2pyMUJSUXBRRXAxSGs0SG14dG9VaEFIMlNzU0JrWGdOdDFMZVdLZXB4NHJBQ3o3Rk9WZGNVUDFCNnZ1RFA4b0U9",
+        "user" : "",
+        "frontend_post" : "getForm"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "showMessage",
+        "message" : "Ticket created successfully",
+        "type" : "success",
+        "ttl" : 5000
+      }, {
+        "actiontype" : "closeoverlay",
+        "formId" : "1_m19n"
+      }, {
+        "actiontype" : "callTab",
+        "encrVar" : "SWExbFQ3OW9XZWwyc1M3MjhKMXFlTnV5OFlNc1haOHBmU3BSbFVPVCtYQkR0a2pROHNlLzdZOXg4WnNUaldaVVdoTXBLTER1Mk1wUVdOdGR3ZnQ4VURtS0cyenFGSnRFaVhoU3pDa1pFZnZ3SE8zVVc1ZkRYVERsVE0xb0tTNEZ3R0Z3UmVvV3FJUXlTb2h2ZElYOTZlV1JzV1JucnVEbElCQ29uTzg5b2ZKRXJRcW5RbkVVaTkzcmtWTld3d3F6UkZ6bWJxM1loVGlKK1dyMFgvS3owZ0R3K1EzY0dOM0RTdE1TS1Zud3UvVGtxeklkSFMrSWFvUll0Q1c3RnhET08yVWNydDNIanE0YTlBSFRUdW92WmFRWlJyMWRSRUh0V0tYSVJiSGdhTWc9",
+        "confirm" : 1,
+        "params" : [ ],
+        "tmpalt" : "object_uid=68c7c9d5ca15f\ntitle=Tester title\nmessage=Tester message\npriority=low\nuser=\ntarget=content_selector.php\ninitialTab=submitTicket_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nticket_uid=6952daf421962",
+        "formType" : {
+          "isOverlay" : 0,
+          "width" : "",
+          "height" : ""
+        }
+      }, {
+        "actiontype" : "callFileWithCallBack",
+        "encrVar" : "S2pPTVJOcHcrdk5helBsRmd2VXpweXBFS244Nk5CY0I1NDU4aTEwVThyOGhyV1ZQdjJoWjZYYXhMdmJ3bldwNDI3THhneXhkbnlsOUtsR1ZRNVA1Y0VPMlNORHl4Ny90ajNIeG14T05abFJhRXlrb3NPN1l5bEJZMjEzQiszeFFZZ05hMi9TMHNQMFVnUmdyZTZzZE84bmdJelZSelJMM3d4QS85NmthdTFZRzJCVzV0MTZhaTI2K1cyTG1EZTBQb3FqVmU2RGJYRFdZZUpFTDNjblFtTy9lVDFSUjgrY29sVUxZMDZCM1hzQWh3cXVxY1pIVWVHeU5oYkJXcVFzd3luOXJGcUxOVUFJdFFCQnJjYUJwVHNkUXV1ZGlpdDZVT2EyM2s4cVhpRlBwdS9BRmRZYUxnQlcwUEhMR1EvUTFWNzJQRW0rQVF1ZUZ4akdadUZwdEZlY2Y0akt5N3RjUkZMaEcwa0Uydm9WQlJNYnhqRzVTOFBGSWVuTGd6K1BkU1lKZ2lBK3pCbXFLaHRIQTVDU1VTMjl1TGQ3SUphbVlaM1RTcDZzczFMOD0=",
+        "confirm" : {
+          "active" : 0,
+          "message" : "",
+          "options" : [ ]
+        },
+        "params" : [ ],
+        "tmpalt" : "actiontype=callFileWithCallBack\nobject_uid=68c7c9d5ca15f\ntitle=Tester title\nmessage=Tester message\npriority=low\nuser=\ntarget=sendNotification.php\ninitialTab=submitTicket_m19n\ntab=submitTicket\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nvalidator=no\nticket_uid=6952daf421962\nprocess=open_ticket",
+        "formType" : {
+          "isOverlay" : 0,
+          "width" : "",
+          "height" : ""
+        }
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 9,
+    "stepName" : "Check is exist",
+    "success" : true,
+    "durationMs" : 384,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : {
+        "dhl_i" : "h3b3bsRIhSiXrXsRvQ9tjyTyEfRzrERPbWuAdx2FbZGEV2evWTeoYfl9uRC5IOOav%2FkjLfSet4Oend2BWjpEABzU8XXdJXOKzl0bWn5Am52He4Kio9033E1q8rioPtpE6IvRCLu5C39cueD3FB%2FVooeyvmJEipUlNpiWxLWeakI%3D",
+        "uID_i" : "6952daf24650a",
+        "username_i" : "tester",
+        "acc_i" : "main",
+        "customer" : "ZCtLL0p3ME9TVzVvNTYrdFVHd0RxMmNuSFd2RUIwZkVGcmNOMkw0M2dDbz0%3D"
+      },
+      "body" : {
+        "objectUid" : "admin_68c3b7dc7739a",
+        "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHFKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==",
+        "frontend_post" : "getForm"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "showForm",
+        "containerID" : "0_m19n__0",
+        "position" : {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "css" : "bottom: 10px; right: 10px;"
+        },
+        "formSettings" : {
+          "maximize" : "0"
+        },
+        "formId" : "0_m19n",
+        "objectUid" : "admin_68c3b7dc7739a",
+        "encrVar" : null,
+        "type" : "localTable",
+        "containers" : [ {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "elements" : {
+            "params" : {
+              "fields" : [ [ {
+                "columnWidth" : "0ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "ID"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Code"
+              }, {
+                "columnWidth" : "10ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Title"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Author"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Created date"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Status"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "Status changed at"
+              }, {
+                "elements" : [ {
+                  "elementType" : "button",
+                  "buttonTitle" : "Open",
+                  "actions" : [ {
+                    "actiontype" : "callTab",
+                    "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJIZjdQL0o1NWJxSmZETkJDYW00dXBHQmNTUFYrcmlJU05nV2dIdGZqRU95bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2Qkc0citvRmNlYnhxRVJrSFBFY05UQlhMSURlTTE1UFErdG9kZFZuYml4cTN0b2ZMWkZEdnFVMTdHYk1OWXUrdjdvYWdrOTh2Z0hwaVZja1hpaDdMYWM9",
+                    "params" : {
+                      "ticket_uid" : "0"
+                    },
+                    "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3\nfromTab=0\nstatusCanChange=0",
+                    "selectedParams" : [ ]
+                  } ]
+                } ],
+                "columnWidth" : "10ch",
+                "fieldType" : "2",
+                "dbFieldSave" : 0,
+                "colName" : "Actions"
+              } ] ],
+              "rowsPerPage" : 100,
+              "tableElementsId" : {
+                "0" : "autotable0_m19n",
+                "1" : "tr0_m19n",
+                "2" : "td",
+                "3" : "temp0_m19n",
+                "4" : "td",
+                "5" : "1",
+                "6" : "",
+                "7" : "dtable0_m19n",
+                "8" : "",
+                "12" : "dtable",
+                "9" : "b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacWcrMTRLb3JYNW0vR1NVV1lHQ1paYkplS1pIa3U1Ky9hM0YrWHpGSGRoN0dicytFdFF2ZnhEVGxENDYyMk9QSC9MbzFnZ2NGVDQ2MWUzKzVDSTcvc0hxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21tT0VxaVppd01sbWNsR0tKWlUrd3J3a0l0RzM3bnJHekFyRnUvUFVVd1FRaythYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVmFBTTBsZWFMOVRqUCthYXVHOUw3aHlSL2txYUdtS1VBYXBnNXNYWW9xVysrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpoL0Q1Q0tSZWtxSkpWSGI3bktTUVBuQU5xR0cvRFQxa2FLTzlVUEwvV3JXZz09",
+                "10" : ""
+              },
+              "autoJumpNextCell" : "0",
+              "JSonFieldValidation" : "",
+              "JSonFormOpen" : "",
+              "group_by" : 0,
+              "TabNo" : "0_m19n",
+              "dataSet" : [ {
+                "elementID" : 0,
+                "ID" : "6952daf421962",
+                "Code" : "TCKT_00000008",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "29-12-2025 23:48:04",
+                "Status" : "New",
+                "Status changed at" : "29-12-2025 23:48:04",
+                "Actions" : ""
+              }, {
+                "elementID" : 1,
+                "ID" : "69528ccfa3421",
+                "Code" : "TCKT_00000007",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "29-12-2025 18:14:39",
+                "Status" : "New",
+                "Status changed at" : "29-12-2025 18:14:39",
+                "Actions" : ""
+              }, {
+                "elementID" : 2,
+                "ID" : "694244bf25753",
+                "Code" : "TCKT_00000006",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:50:55",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:50:55",
+                "Actions" : ""
+              }, {
+                "elementID" : 3,
+                "ID" : "694243f76f375",
+                "Code" : "TCKT_00000005",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:47:35",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:47:35",
+                "Actions" : ""
+              }, {
+                "elementID" : 4,
+                "ID" : "6941a2ca68da5",
+                "Code" : "TCKT_00000004",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:19:54",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:19:54",
+                "Actions" : ""
+              }, {
+                "elementID" : 5,
+                "ID" : "6941a148519cb",
+                "Code" : "TCKT_00000003",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:13:28",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:13:28",
+                "Actions" : ""
+              }, {
+                "elementID" : 6,
+                "ID" : "69419da11d053",
+                "Code" : "TCKT_00000002",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:57:53",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:57:53",
+                "Actions" : ""
+              }, {
+                "elementID" : 7,
+                "ID" : "69419d482d68f",
+                "Code" : "TCKT_00000001",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:56:24",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:56:24",
+                "Actions" : ""
+              } ],
+              "tableSetup" : [ {
+                "pin" : [ 7 ],
+                "hierarchical" : 0
+              } ]
+            },
+            "type" : "localTable"
+          },
+          "css" : "bottom: 10px; right: 10px;",
+          "border" : null,
+          "title" : null,
+          "containerID" : "0_m19n__0",
+          "containerType" : "localTable"
+        } ],
+        "buttons" : [ {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2SXJSR1BZc2hadDVKZE9QekQ4M3l4ay83UnlrUEorYWc0MXF6anQwb2piYg==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3"
+          } ],
+          "buttonTitle" : "Refresh"
+        }, {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUJuQnQzMXZ0K21scWsvSGVza0kwd0kyZDZBQXYwYm8vRFVvWDY1Sm9rSHF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2R2lGb1d2RGJEZ2NTQ1hCTi9pblhRbE9XNys5T2FPMXdYYU5RNmdEZXNHdjdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=0\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3\narchive=1"
+          } ],
+          "buttonTitle" : "Archive"
+        }, {
+          "priority" : "high",
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WVJGTm1FOHREckttWDRYMitsNnREanpCQ1lEVENOQzZvcWhTaGdJTTVwMUpBL3VhUkJRbVAwOU5jcWxBWjRBZUdKNGJ3TitrMlFnUHpMTVNOWk5nQ1B5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2SXJSR1BZc2hadDVKZE9QekQ4M3l4ay83UnlrUEorYWc0MXF6anQwb2piYg==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c3b7dc7739a\ntarget=content_selector.php\ninitialTab=0_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf461cb3"
+          } ],
+          "buttonTitle" : "Create ticket"
+        } ],
+        "formTitle" : "Ticket list",
+        "paArray" : {
+          "list" : [ ]
+        }
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  }, {
+    "stepNumber" : 10,
+    "stepName" : "Check is exist for admin",
+    "success" : true,
+    "durationMs" : 343,
+    "statusCode" : 200,
+    "request" : {
+      "url" : "https://core.tabus.net/main/html/handler.php",
+      "method" : "POST",
+      "headers" : {
+        "User-Agent" : "ArgusOmni-Tester",
+        "Content-Type" : "application/json"
+      },
+      "cookies" : { },
+      "body" : {
+        "objectUid" : "admin_68c94d2a20b0e",
+        "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCtKdzZ6QmpSb0NrVUVUTCtsUkZlM0JjUnltYmlob1ErNkhaM3J6d2t1VktrPQ==",
+        "frontend_post" : "getForm"
+      }
+    },
+    "response" : {
+      "console" : "",
+      "errors" : "",
+      "actions" : [ {
+        "actiontype" : "showForm",
+        "containerID" : "4_m19n__0",
+        "position" : {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "css" : "bottom: 10px; right: 10px;"
+        },
+        "formSettings" : {
+          "maximize" : "0"
+        },
+        "formId" : "4_m19n",
+        "objectUid" : "admin_68c94d2a20b0e",
+        "encrVar" : null,
+        "type" : "localTable",
+        "containers" : [ {
+          "x" : "10",
+          "y" : "10",
+          "width" : null,
+          "height" : null,
+          "elements" : {
+            "params" : {
+              "fields" : [ [ {
+                "columnWidth" : "0ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "ID"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Code"
+              }, {
+                "columnWidth" : "10ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Title"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Author"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Created date"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "1",
+                "dbFieldSave" : 0,
+                "colName" : "Status"
+              }, {
+                "columnWidth" : "15ch",
+                "fieldType" : "-1",
+                "dbFieldSave" : 0,
+                "colName" : "Status changed at"
+              }, {
+                "elements" : [ {
+                  "elementType" : "button",
+                  "buttonTitle" : "Open",
+                  "actions" : [ {
+                    "actiontype" : "callTab",
+                    "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1NwN2U2aW9DbnNZOExGSkFqNTBySTFxSE14ZGNVWURmZXNQbFdUamhXcmd5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2Q2NaZkdST2VkaFFLUm9aNXFVd2tQalVzYXZ2dVl4T2tMTVhqdVpRbTNWeHdYVEVGVG50amo4bWZnOU5uS29MYmJYb0NkSFhIS3lXMnBaU0k4U1V0OTA9",
+                    "params" : {
+                      "ticket_uid" : "0"
+                    },
+                    "tmpalt" : "actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=2\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18\nfromTab=4\nstatusCanChange=1",
+                    "selectedParams" : [ ]
+                  } ]
+                } ],
+                "columnWidth" : "10ch",
+                "fieldType" : "2",
+                "dbFieldSave" : 0,
+                "colName" : "Actions"
+              } ] ],
+              "rowsPerPage" : 100,
+              "tableElementsId" : {
+                "0" : "autotable4_m19n",
+                "1" : "tr4_m19n",
+                "2" : "td",
+                "3" : "temp4_m19n",
+                "4" : "td",
+                "5" : "1",
+                "6" : "",
+                "7" : "dtable4_m19n",
+                "8" : "",
+                "12" : "dtable",
+                "9" : "b3hpMjJUU1htRFVvcnVvQVErcG90bkd6MlNRMHlNWnNXS0hrRjVrNlVacUwxUDIzdmFzSnhwWDcxYVRjNytTUEtpaWlCVG1OK0tGTXNxME10WkErSm1LUlhuaVVsTjNJQnZJY3NCZzM0azhWc2ExbWxjd1ZmNWJEV24zMFBXbkRxd1lYV05SZzBwcUxFU3JvaEpFbk5GYjMwbmljZ0ZnZ2h1bjhwRnR0a21uMVpQWXpuL2lubm5WTExGRE53S3FIMG9zY01XQmF6dFVRbk5oYmlGdUtwRSthYk5BOVdBc2hjNnptdjgwYmMwSzhEMHltNTc4ajVkN3R5dDNCRlpnVmJicFZHZkR0cVNmdHZDZGRyWTlKM3pIR29meFFaamZHdlJWVzF1SUZLdlcrWllVaGZLZ0RhYmtENHA5U09oTGJ5aWFRQ3FGay9LcURyVzhxdk1mWW9UcDh3VzErR3RNUnN1dFdzWnA2OEQ2RVhtNWlBMU5nejI0Z3NqaTFaTTlLUldicE1vdEVzTmNuL09rd0NVVFpmMjZZRWk4cUNkNDh1YlNEeVdYZjhTV0k4OGZ0aEFQMmNYT2dEU0Y2dHB6Z0VjV3pRcVJsNGJIUW93czJyUktkWmVVVkppM0lpWFJuUkpQRDRId1grUVlaUG1SOCtBU01FOS8rT3dkVUxhbnVTQ1Q3S1RoRG5mRkRkY2xtelpyakNKQjdNLzY3K3BUZVlMZmtieGRlVFpnK2hLRzhLNGIxUU5PQkNEeTRKTXJ4TjlZV1V6alAyKzhwU0ZuTVNBN0tVUT09",
+                "10" : ""
+              },
+              "autoJumpNextCell" : "0",
+              "JSonFieldValidation" : "",
+              "JSonFormOpen" : "",
+              "group_by" : 0,
+              "TabNo" : "4_m19n",
+              "dataSet" : [ {
+                "elementID" : 0,
+                "ID" : "6952daf421962",
+                "Code" : "TCKT_00000008",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "29-12-2025 23:48:04",
+                "Status" : "New",
+                "Status changed at" : "29-12-2025 23:48:04",
+                "Actions" : ""
+              }, {
+                "elementID" : 1,
+                "ID" : "69528ccfa3421",
+                "Code" : "TCKT_00000007",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "29-12-2025 18:14:39",
+                "Status" : "New",
+                "Status changed at" : "29-12-2025 18:14:39",
+                "Actions" : ""
+              }, {
+                "elementID" : 2,
+                "ID" : "694244bf25753",
+                "Code" : "TCKT_00000006",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:50:55",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:50:55",
+                "Actions" : ""
+              }, {
+                "elementID" : 3,
+                "ID" : "694243f76f375",
+                "Code" : "TCKT_00000005",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "17-12-2025 09:47:35",
+                "Status" : "New",
+                "Status changed at" : "17-12-2025 09:47:35",
+                "Actions" : ""
+              }, {
+                "elementID" : 4,
+                "ID" : "6941a2ca68da5",
+                "Code" : "TCKT_00000004",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:19:54",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:19:54",
+                "Actions" : ""
+              }, {
+                "elementID" : 5,
+                "ID" : "6941a148519cb",
+                "Code" : "TCKT_00000003",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 22:13:28",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 22:13:28",
+                "Actions" : ""
+              }, {
+                "elementID" : 6,
+                "ID" : "69419da11d053",
+                "Code" : "TCKT_00000002",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:57:53",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:57:53",
+                "Actions" : ""
+              }, {
+                "elementID" : 7,
+                "ID" : "69419d482d68f",
+                "Code" : "TCKT_00000001",
+                "Title" : "Tester title1",
+                "Author" : "Tester ",
+                "Created date" : "16-12-2025 21:56:24",
+                "Status" : "New",
+                "Status changed at" : "16-12-2025 21:56:24",
+                "Actions" : ""
+              } ],
+              "tableSetup" : [ {
+                "pin" : [ 7 ],
+                "hierarchical" : 0
+              } ]
+            },
+            "type" : "localTable"
+          },
+          "css" : "bottom: 10px; right: 10px;",
+          "border" : null,
+          "title" : null,
+          "containerID" : "4_m19n__0",
+          "containerType" : "localTable"
+        } ],
+        "buttons" : [ {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCt5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2QUFSdVRrbVQvMHBGYzBUMFdteTJJQks5R2dPaXBTb0lKcndaU2FzMTczSg==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=4\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18"
+          } ],
+          "buttonTitle" : "Refresh"
+        }, {
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1N6cWgxZG5WZWtYNjRYS3pzWlhlYUNJckxsWmNVNFRxL0hrcFEzUzhyOCt5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2S1N3eE0wb2s4ektXdTVhckl6UWxJMEwwaUpKd3BYQkxtNlhCUmpXWXNIQzdmbzl0QXNtVUZYQjBMUkZiZ09vSkxyb2RCOThXOXQvbmxiYTgvdHYvR1U9",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=4\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18\narchive=1"
+          } ],
+          "buttonTitle" : "Archive"
+        }, {
+          "priority" : "high",
+          "actions" : [ {
+            "actiontype" : "callTab",
+            "encrVar" : "RmRqdWJzVnMvSWp0VXFDaDJkMFdJWTZzWmRSUEhKRDNxckVhSWlRTkp5WXg0aDBWV09jVFR5Z0VGKy9saDlMclcwVlZ3U09QN2E4ek4rSnZRVDd6a1VwcDZMUCtmMGtCRGk3N3h2ZG5hRW0vK3drR2xmMUxITEJ2akJOT3ZvaVF5bjlyRnFMTlVBSXRRQkJyY2FCcFRzZFF1dWRpaXQ2VU9hMjNrOHFYaUZOOWdoSDFyaU1rT2w4N0VDMEhBV253UEp0NXI1RnBldlJlN095YzJQRTU2QUFSdVRrbVQvMHBGYzBUMFdteTJJQks5R2dPaXBTb0lKcndaU2FzMTczSg==",
+            "params" : [ ],
+            "selectedParams" : [ ],
+            "postGridData" : [ ],
+            "tmpalt" : "actiontype=callTab\nobject_uid=68c94d2a20b0e\ntarget=content_selector.php\ninitialTab=4_m19n\ntab=1\nm=19\nmoduleSource=admin\nadm=1\npagenum=100\npage=1\nform_session_id=63075626b9dd3_6952daf4dea18"
+          } ],
+          "buttonTitle" : "Create ticket"
+        } ],
+        "formTitle" : "Ticket list",
+        "paArray" : {
+          "list" : [ ]
+        }
+      } ]
+    },
+    "extractedVariables" : { },
+    "errorMessage" : null
+  } ]
+}
