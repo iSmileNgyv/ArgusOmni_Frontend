@@ -33,6 +33,14 @@ export interface BashStepConfig {
   command: string;
 }
 
+export interface FileUploadStepConfig {
+  url: string;
+  method?: 'POST' | 'PUT' | 'PATCH';
+  files: Record<string, string>; // fieldName: filePath
+  formData?: Record<string, string>; // additional form fields
+  headers?: Record<string, string>;
+}
+
 export interface SetStepConfig {
   variables: Record<string, any>;
 }
@@ -96,7 +104,7 @@ export interface ExtractConfig {
 export interface TestStep {
   id?: string;
   name: string;
-  type: 'REST' | 'GRPC' | 'BASH' | 'SET' | 'WAIT' | 'LOOP' | 'IF' | 'ASSERT' | 'TRANSFORM' | 'MOCK' | 'FS';
+  type: 'REST' | 'GRPC' | 'BASH' | 'SET' | 'WAIT' | 'LOOP' | 'IF' | 'ASSERT' | 'TRANSFORM' | 'MOCK' | 'FS' | 'FILEUPLOAD';
   dependsOn?: string[];
   continueOnError?: boolean;
   maxRetries?: number;
@@ -110,6 +118,7 @@ export interface TestStep {
   wait?: WaitStepConfig;
   loop?: LoopStepConfig;
   ifConfig?: IfStepConfig;
+  fileupload?: FileUploadStepConfig;
 
   // Common fields
   extract?: ExtractConfig;
@@ -169,6 +178,7 @@ export function generateYaml(suite: TestSuite): string {
     if (step.wait) stepObj.wait = cleanObject(step.wait);
     if (step.loop) stepObj.loop = cleanLoopConfig(step.loop);
     if (step.ifConfig) stepObj.ifConfig = cleanIfConfig(step.ifConfig);
+    if (step.fileupload) stepObj.fileupload = cleanObject(step.fileupload);
 
     // Add extract
     if (step.extract && Object.keys(step.extract).length > 0) {

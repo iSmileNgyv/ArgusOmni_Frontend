@@ -88,6 +88,7 @@
     "stepNamePlaceholder": "Enter step name",
     "deleteStep": "Delete Step",
     "httpRequest": "HTTP Request",
+    "fileUpload": "File Upload",
     "database": "Database Query",
     "apiCall": "API Call",
     "validation": "Validation",
@@ -187,7 +188,15 @@
       "cookieName": "Cookie Name",
       "cookieValue": "Cookie Value",
       "requestBody": "Request Body (JSON)",
-      "requestBodyPlaceholder": "Enter JSON request body"
+      "requestBodyPlaceholder": "Enter JSON request body",
+      "multipart": "Multipart / File Upload",
+      "multipartDescription": "Add file uploads and form fields (multipart/form-data)",
+      "noMultipart": "No multipart fields",
+      "fieldName": "Field Name",
+      "fieldValue": "Value / File Path",
+      "fieldType": "Type",
+      "textField": "Text",
+      "fileField": "File"
     },
     "bash": {
       "command": "Bash Command",
@@ -258,6 +267,26 @@
       "keyPlaceholderEnv": "Key (e.g: baseUrl)",
       "keyPlaceholderGlobal": "Key (e.g: userId)",
       "valuePlaceholder": "Value"
+    },
+    "fileupload": {
+      "method": "Method",
+      "url": "Upload URL",
+      "urlPlaceholder": "https://api.example.com/upload",
+      "files": "Files to Upload",
+      "filesDescription": "Specify file field names and their paths",
+      "addButton": "Add",
+      "noFiles": "No files",
+      "fieldName": "Field Name",
+      "filePath": "File Path",
+      "formData": "Additional Form Data",
+      "formDataDescription": "Add extra form fields (text values)",
+      "noFormData": "No form data",
+      "formDataKey": "Field Name",
+      "formDataValue": "Value",
+      "headers": "Headers",
+      "noHeaders": "No headers",
+      "headerKey": "Header Key",
+      "headerValue": "Header Value"
     }
   }
 }

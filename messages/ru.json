@@ -88,6 +88,7 @@
     "stepNamePlaceholder": "Введите название шага",
     "deleteStep": "Удалить шаг",
     "httpRequest": "HTTP запрос",
+    "fileUpload": "Загрузка файлов",
     "database": "Запрос к БД",
     "apiCall": "Вызов API",
     "validation": "Валидация",
@@ -187,7 +188,15 @@
       "cookieName": "Имя cookie",
       "cookieValue": "Значение cookie",
       "requestBody": "Тело запроса (JSON)",
-      "requestBodyPlaceholder": "Введите тело запроса JSON"
+      "requestBodyPlaceholder": "Введите тело запроса JSON",
+      "multipart": "Multipart / Загрузка файлов",
+      "multipartDescription": "Добавьте загрузки файлов и поля формы (multipart/form-data)",
+      "noMultipart": "Нет multipart полей",
+      "fieldName": "Имя поля",
+      "fieldValue": "Значение / Путь к файлу",
+      "fieldType": "Тип",
+      "textField": "Текст",
+      "fileField": "Файл"
     },
     "bash": {
       "command": "Bash команда",
@@ -258,6 +267,26 @@
       "keyPlaceholderEnv": "Ключ (напр: baseUrl)",
       "keyPlaceholderGlobal": "Ключ (напр: userId)",
       "valuePlaceholder": "Значение"
+    },
+    "fileupload": {
+      "method": "Метод",
+      "url": "URL загрузки",
+      "urlPlaceholder": "https://api.example.com/upload",
+      "files": "Файлы для загрузки",
+      "filesDescription": "Укажите названия полей файлов и их пути",
+      "addButton": "Добавить",
+      "noFiles": "Нет файлов",
+      "fieldName": "Имя поля",
+      "filePath": "Путь к файлу",
+      "formData": "Дополнительные данные формы",
+      "formDataDescription": "Добавьте дополнительные поля формы (текстовые значения)",
+      "noFormData": "Нет данных формы",
+      "formDataKey": "Имя поля",
+      "formDataValue": "Значение",
+      "headers": "Заголовки",
+      "noHeaders": "Нет заголовков",
+      "headerKey": "Ключ заголовка",
+      "headerValue": "Значение заголовка"
     }
   }
 }

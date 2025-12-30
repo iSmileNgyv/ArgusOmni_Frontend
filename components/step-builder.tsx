@@ -15,6 +15,7 @@ import { RestStepForm } from "./forms/rest-step-form";
 import { BashStepForm } from "./forms/bash-step-form";
 import { SetStepForm } from "./forms/set-step-form";
 import { WaitStepForm } from "./forms/wait-step-form";
+import { FileUploadStepForm } from "./forms/fileupload-step-form";
 import { ExpectForm } from "./forms/expect-form";
 import { ExtractForm } from "./forms/extract-form";
 import { VariableManager } from "./variable-manager";
@@ -122,6 +123,13 @@ export const StepBuilder = forwardRef<StepBuilderRef, StepBuilderProps>(
             onChange={(config) => updateStep(index, { wait: config })}
           />
         );
+      case "FILEUPLOAD":
+        return (
+          <FileUploadStepForm
+            config={step.fileupload || { url: "", files: {} }}
+            onChange={(config) => updateStep(index, { fileupload: config })}
+          />
+        );
       default:
         return <p className="text-sm text-muted-foreground">{t("stepBuilder.noSteps")}</p>;
     }
@@ -187,6 +195,7 @@ export const StepBuilder = forwardRef<StepBuilderRef, StepBuilderProps>(
                         if (value === "BASH") newStep.bash = { command: "" };
                         if (value === "SET") newStep.set = { variables: {} };
                         if (value === "WAIT") newStep.wait = {};
+                        if (value === "FILEUPLOAD") newStep.fileupload = { url: "", files: {} };
                         updateStep(index, newStep);
                       }}
                     >
@@ -198,6 +207,7 @@ export const StepBuilder = forwardRef<StepBuilderRef, StepBuilderProps>(
                         <SelectItem value="BASH">BASH Command</SelectItem>
                         <SelectItem value="SET">SET Variables</SelectItem>
                         <SelectItem value="WAIT">WAIT</SelectItem>
+                        <SelectItem value="FILEUPLOAD">{t("stepBuilder.fileUpload")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -230,8 +240,8 @@ export const StepBuilder = forwardRef<StepBuilderRef, StepBuilderProps>(
 
                 <Separator />
 
-                {/* Extract (for REST and BASH) */}
-                {(step.type === "REST" || step.type === "BASH") && (
+                {/* Extract (for REST, BASH, and FILEUPLOAD) */}
+                {(step.type === "REST" || step.type === "BASH" || step.type === "FILEUPLOAD") && (
                   <>
                     <ExtractForm
                       config={step.extract || {}}
@@ -241,8 +251,8 @@ export const StepBuilder = forwardRef<StepBuilderRef, StepBuilderProps>(
                   </>
                 )}
 
-                {/* Expect/Assertions (for REST, BASH, etc.) */}
-                {(step.type === "REST" || step.type === "BASH") && (
+                {/* Expect/Assertions (for REST, BASH, FILEUPLOAD, etc.) */}
+                {(step.type === "REST" || step.type === "BASH" || step.type === "FILEUPLOAD") && (
                   <ExpectForm
                     config={step.expect || {}}
                     onChange={(config) => updateStep(index, { expect: config })}

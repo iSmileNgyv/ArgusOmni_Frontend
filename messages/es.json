@@ -88,6 +88,7 @@
     "stepNamePlaceholder": "Ingrese el nombre del paso",
     "deleteStep": "Eliminar paso",
     "httpRequest": "Solicitud HTTP",
+    "fileUpload": "Carga de archivos",
     "database": "Consulta de base de datos",
     "apiCall": "Llamada API",
     "validation": "Validación",
@@ -187,7 +188,15 @@
       "cookieName": "Nombre de cookie",
       "cookieValue": "Valor de cookie",
       "requestBody": "Cuerpo de solicitud (JSON)",
-      "requestBodyPlaceholder": "Ingrese cuerpo de solicitud JSON"
+      "requestBodyPlaceholder": "Ingrese cuerpo de solicitud JSON",
+      "multipart": "Multipart / Carga de archivos",
+      "multipartDescription": "Agregue cargas de archivos y campos de formulario (multipart/form-data)",
+      "noMultipart": "Sin campos multipart",
+      "fieldName": "Nombre del campo",
+      "fieldValue": "Valor / Ruta del archivo",
+      "fieldType": "Tipo",
+      "textField": "Texto",
+      "fileField": "Archivo"
     },
     "bash": {
       "command": "Comando Bash",
@@ -258,6 +267,26 @@
       "keyPlaceholderEnv": "Clave (ej: baseUrl)",
       "keyPlaceholderGlobal": "Clave (ej: userId)",
       "valuePlaceholder": "Valor"
+    },
+    "fileupload": {
+      "method": "Método",
+      "url": "URL de carga",
+      "urlPlaceholder": "https://api.example.com/upload",
+      "files": "Archivos para cargar",
+      "filesDescription": "Especifique nombres de campos de archivo y sus rutas",
+      "addButton": "Agregar",
+      "noFiles": "Sin archivos",
+      "fieldName": "Nombre del campo",
+      "filePath": "Ruta del archivo",
+      "formData": "Datos de formulario adicionales",
+      "formDataDescription": "Agregue campos de formulario adicionales (valores de texto)",
+      "noFormData": "Sin datos de formulario",
+      "formDataKey": "Nombre del campo",
+      "formDataValue": "Valor",
+      "headers": "Encabezados",
+      "noHeaders": "Sin encabezados",
+      "headerKey": "Clave de encabezado",
+      "headerValue": "Valor de encabezado"
     }
   }
 }

@@ -9,7 +9,7 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Plus, Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 
 interface RestStepFormProps {
@@ -19,6 +19,10 @@ interface RestStepFormProps {
 
 export function RestStepForm({ config, onChange }: RestStepFormProps) {
   const t = useTranslations();
+  const isEditingHeaders = useRef(false);
+  const isEditingQueryParams = useRef(false);
+  const isEditingCookies = useRef(false);
+
   const [headers, setHeaders] = useState<Array<{ key: string; value: string }>>(
     config.headers
       ? Object.entries(config.headers).map(([key, value]) => ({ key, value }))
@@ -39,8 +43,12 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
       : []
   );
 
-  // Update headers state when config changes (for import/edit)
+  // Update headers state when config changes (skip if user is editing)
   useEffect(() => {
+    if (isEditingHeaders.current) {
+      return; // Don't reset flag, keep skipping
+    }
+
     if (config.headers) {
       setHeaders(Object.entries(config.headers).map(([key, value]) => ({ key, value })));
     } else {
@@ -48,8 +56,12 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
     }
   }, [config.headers]);
 
-  // Update queryParams state when config changes (for import/edit)
+  // Update queryParams state when config changes (skip if user is editing)
   useEffect(() => {
+    if (isEditingQueryParams.current) {
+      return; // Don't reset flag, keep skipping
+    }
+
     if (config.queryParams) {
       setQueryParams(Object.entries(config.queryParams).map(([key, value]) => ({ key, value })));
     } else {
@@ -57,8 +69,12 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
     }
   }, [config.queryParams]);
 
-  // Update cookies state when config changes (for import/edit)
+  // Update cookies state when config changes (skip if user is editing)
   useEffect(() => {
+    if (isEditingCookies.current) {
+      return; // Don't reset flag, keep skipping
+    }
+
     if (config.cookies === "auto") {
       setCookiesAuto(true);
       setCookies([]);
@@ -76,16 +92,19 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
   };
 
   const addHeader = () => {
+    isEditingHeaders.current = true;
     setHeaders([...headers, { key: "", value: "" }]);
   };
 
   const removeHeader = (index: number) => {
+    isEditingHeaders.current = true;
     const newHeaders = headers.filter((_, i) => i !== index);
     setHeaders(newHeaders);
     updateHeadersInConfig(newHeaders);
   };
 
   const updateHeader = (index: number, field: "key" | "value", value: string) => {
+    isEditingHeaders.current = true;
     const newHeaders = [...headers];
     newHeaders[index][field] = value;
     setHeaders(newHeaders);
@@ -101,16 +120,19 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
   };
 
   const addQueryParam = () => {
+    isEditingQueryParams.current = true;
     setQueryParams([...queryParams, { key: "", value: "" }]);
   };
 
   const removeQueryParam = (index: number) => {
+    isEditingQueryParams.current = true;
     const newParams = queryParams.filter((_, i) => i !== index);
     setQueryParams(newParams);
     updateQueryParamsInConfig(newParams);
   };
 
   const updateQueryParam = (index: number, field: "key" | "value", value: string) => {
+    isEditingQueryParams.current = true;
     const newParams = [...queryParams];
     newParams[index][field] = value;
     setQueryParams(newParams);
@@ -126,6 +148,7 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
   };
 
   const handleCookiesAutoToggle = (checked: boolean) => {
+    isEditingCookies.current = true;
     setCookiesAuto(checked);
     if (checked) {
       updateConfig({ cookies: "auto" });
@@ -136,16 +159,19 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
   };
 
   const addCookie = () => {
+    isEditingCookies.current = true;
     setCookies([...cookies, { key: "", value: "" }]);
   };
 
   const removeCookie = (index: number) => {
+    isEditingCookies.current = true;
     const newCookies = cookies.filter((_, i) => i !== index);
     setCookies(newCookies);
     updateCookiesInConfig(newCookies);
   };
 
   const updateCookie = (index: number, field: "key" | "value", value: string) => {
+    isEditingCookies.current = true;
     const newCookies = [...cookies];
     newCookies[index][field] = value;
     setCookies(newCookies);
@@ -354,6 +380,50 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
             onChange={(e) => updateConfig({ body: e.target.value })}
           />
         </div>
+      )}
+
+      {/* Multipart / File Upload (POST/PUT/PATCH only) */}
+      {(config.method === "POST" || config.method === "PUT" || config.method === "PATCH") && (
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm">{t('forms.rest.multipart')}</CardTitle>
+            <CardDescription className="text-xs">
+              {t('forms.rest.multipartDescription')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <Label className="text-xs">
+                YAML Format (Example: profilePhoto: "/path/to/photo.jpg")
+              </Label>
+              <Textarea
+                placeholder={`profilePhoto: "/path/to/photo.jpg"\nname: "John Doe"\nage: "30"`}
+                className="font-mono text-xs"
+                rows={6}
+                value={
+                  config.multipart
+                    ? typeof config.multipart === "string"
+                      ? config.multipart
+                      : JSON.stringify(config.multipart, null, 2)
+                    : ""
+                }
+                onChange={(e) => {
+                  const value = e.target.value.trim();
+                  if (!value) {
+                    updateConfig({ multipart: undefined });
+                  } else {
+                    try {
+                      const parsed = JSON.parse(value);
+                      updateConfig({ multipart: parsed });
+                    } catch {
+                      updateConfig({ multipart: value as any });
+                    }
+                  }
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

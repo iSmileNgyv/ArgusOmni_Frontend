@@ -88,6 +88,7 @@
     "stepNamePlaceholder": "Addımın adını daxil edin",
     "deleteStep": "Addımı Sil",
     "httpRequest": "HTTP Request",
+    "fileUpload": "Fayl Yükləmə",
     "database": "Database Query",
     "apiCall": "API Call",
     "validation": "Validation",
@@ -187,7 +188,15 @@
       "cookieName": "Cookie Name",
       "cookieValue": "Cookie Value",
       "requestBody": "Request Body (JSON)",
-      "requestBodyPlaceholder": "Enter JSON request body"
+      "requestBodyPlaceholder": "Enter JSON request body",
+      "multipart": "Multipart / Fayl Yükləmə",
+      "multipartDescription": "Fayl yükləmə və form field-ləri əlavə edin (multipart/form-data)",
+      "noMultipart": "Multipart field yoxdur",
+      "fieldName": "Field Adı",
+      "fieldValue": "Dəyər / Fayl Yolu",
+      "fieldType": "Növ",
+      "textField": "Mətn",
+      "fileField": "Fayl"
     },
     "bash": {
       "command": "Bash Command",
@@ -258,6 +267,26 @@
       "keyPlaceholderEnv": "Key (məs: baseUrl)",
       "keyPlaceholderGlobal": "Key (məs: userId)",
       "valuePlaceholder": "Value"
+    },
+    "fileupload": {
+      "method": "Method",
+      "url": "Yükləmə URL",
+      "urlPlaceholder": "https://api.example.com/upload",
+      "files": "Yüklənəcək Fayllar",
+      "filesDescription": "Fayl field adları və path-lərini daxil edin",
+      "addButton": "Əlavə et",
+      "noFiles": "Fayl yoxdur",
+      "fieldName": "Field Adı",
+      "filePath": "Fayl Path",
+      "formData": "Əlavə Form Data",
+      "formDataDescription": "Əlavə form field-ləri (mətn dəyərləri)",
+      "noFormData": "Form data yoxdur",
+      "formDataKey": "Field Adı",
+      "formDataValue": "Dəyər",
+      "headers": "Headers",
+      "noHeaders": "Header yoxdur",
+      "headerKey": "Header Key",
+      "headerValue": "Header Value"
     }
   }
 }
