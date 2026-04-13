@@ -376,7 +376,13 @@ export function RestStepForm({ config, onChange }: RestStepFormProps) {
             placeholder={t('forms.rest.requestBodyPlaceholder')}
             className="font-mono text-xs"
             rows={8}
-            value={config.body || ""}
+            value={
+              typeof config.body === "string"
+                ? config.body
+                : config.body
+                  ? JSON.stringify(config.body, null, 2)
+                  : ""
+            }
             onChange={(e) => updateConfig({ body: e.target.value })}
           />
         </div>

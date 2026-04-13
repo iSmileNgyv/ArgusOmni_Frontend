@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { writeFileSync, unlinkSync, existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,15 +34,21 @@ export async function POST(request: NextRequest) {
     writeFileSync(tempFilePath, yamlContent);
 
     // Java CLI-nı işə sal
-    const jarPath = '/Users/ismile/IdeaProjects/Java_CoreScaffold/ArgusOmni-CLI/build/libs/ArgusOmni-CLI-1.0.0.jar';
-    const command = `java -jar "${jarPath}" run "${tempFilePath}"`;
+    const jarPath = process.env.ARGUS_JAR_PATH || '/opt/argus/backend/ArgusOmni-CLI.jar';
 
-    console.log('İcra olunan əmr:', command);
+    if (!existsSync(jarPath)) {
+      return NextResponse.json({
+        success: false,
+        error: `ArgusOmni JAR tapılmadı: ${jarPath}`,
+      }, { status: 500 });
+    }
+
+    console.log('İcra olunan əmr:', ['java', '-jar', jarPath, 'run', tempFilePath].join(' '));
 
     const startTime = Date.now();
 
     try {
-      const { stdout, stderr } = await execAsync(command, {
+      const { stdout, stderr } = await execFileAsync('java', ['-jar', jarPath, 'run', tempFilePath], {
         timeout: 300000, // 5 dəqiqə timeout
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
